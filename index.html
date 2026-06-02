@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>REVIART Final Exam</title>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{background:#050504}
+    .cin{min-height:100vh;background:linear-gradient(180deg,#090706 0%,#0d0908 36%,#060606 100%);font-family:"Arial Narrow",Arial,sans-serif;color:#e8dcc8;position:relative;overflow:hidden}
+    .cin::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(105deg,rgba(117,20,20,.48),transparent 28%,transparent 72%,rgba(117,20,20,.45)),repeating-linear-gradient(90deg,rgba(255,220,150,.05) 0 1px,transparent 1px 18px),radial-gradient(ellipse at center top,rgba(255,205,118,.18),transparent 46%);filter:saturate(1.25)}
+    .cin::after{content:"";position:fixed;inset:-20vh -10vw;pointer-events:none;z-index:0;background:linear-gradient(74deg,transparent 0 26%,rgba(236,194,105,.12) 34%,transparent 45%),linear-gradient(106deg,transparent 0 55%,rgba(236,194,105,.1) 64%,transparent 74%),radial-gradient(ellipse at center,transparent 0 42%,rgba(0,0,0,.55) 76%,rgba(0,0,0,.9) 100%);mix-blend-mode:screen;animation:lights 9s ease-in-out infinite alternate}
+    @keyframes lights{from{transform:translateX(-1.5%) scale(1)}to{transform:translateX(1.5%) scale(1.03)}}
+    .grain{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.22;animation:gr .12s steps(1) infinite;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E")}
+    @keyframes gr{0%{transform:translate(0,0)}10%{transform:translate(-2%,-3%)}20%{transform:translate(3%,2%)}30%{transform:translate(-1%,4%)}40%{transform:translate(4%,-1%)}50%{transform:translate(-3%,3%)}60%{transform:translate(2%,-4%)}70%{transform:translate(-4%,1%)}80%{transform:translate(1%,-2%)}90%{transform:translate(3%,4%)}100%{transform:translate(-2%,2%)}}
+    .strip{display:flex;gap:4px;padding:4px 6px;background:#0d0d0d;border-bottom:1px solid #1a1a1a;overflow:hidden;position:relative;z-index:2}
+    .hole{width:14px;height:10px;border-radius:2px;background:#080808;border:1px solid #2a2a2a;flex-shrink:0}
+    .cin-hd{text-align:center;padding:58px 24px 0;position:relative;z-index:2}
+    .eyebrow{font-size:11px;font-weight:700;letter-spacing:.5em;text-transform:uppercase;color:#d4a843;display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:18px}
+    .eyebrow::before,.eyebrow::after{content:"";width:60px;height:1px;background:#d4a843;opacity:.5}
+    .cin-logo{font-family:Georgia,serif;font-size:clamp(44px,9vw,90px);font-weight:900;letter-spacing:0;line-height:.9;color:#f0e6d0;text-shadow:0 0 26px rgba(212,168,67,.16),0 8px 34px rgba(0,0,0,.85)}
+    .cin-logo em{font-style:italic;color:#d4a843}
+    .cin-sub{margin-top:16px;font-size:12px;font-weight:500;letter-spacing:.5em;text-transform:uppercase;color:#4a3a20}
+    .screening-note{max-width:760px;margin:18px auto 0;color:#bda471;font-size:14px;line-height:1.55;letter-spacing:.08em;text-transform:uppercase}
+    .screening-note strong{color:#d4a843}
+    .auto-play{margin:22px auto 0;display:inline-flex;align-items:center;gap:10px;background:rgba(0,0,0,.42);border:1px solid rgba(212,168,67,.55);color:#d4a843;padding:11px 20px;font-family:"Arial Narrow",Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;cursor:pointer;box-shadow:0 16px 40px rgba(0,0,0,.35)}
+    .auto-play:hover{background:#d4a843;color:#080808}
+    .auto-play .play-ico{border-left-color:currentColor}
+    .divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:24px auto 52px;width:fit-content}
+    .dl{width:100px;height:1px}
+    .dl:first-child{background:linear-gradient(to right,transparent,#d4a843)}
+    .dl:last-child{background:linear-gradient(to left,transparent,#d4a843)}
+    .dd{width:6px;height:6px;background:#d4a843;transform:rotate(45deg)}
+    .cin-grid{max-width:1180px;margin:0 auto;padding:0 20px 80px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative;z-index:2}
+    @media(max-width:720px){.cin-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:460px){.cin-grid{grid-template-columns:1fr}}
+    .card{aspect-ratio:2/3;position:relative;cursor:pointer;overflow:hidden;border-radius:6px;border:1px solid rgba(234,192,104,.18);transition:transform .4s cubic-bezier(.25,.46,.45,.94),border-color .3s,box-shadow .4s;background:#111;box-shadow:0 14px 36px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.03)}
+    .card::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(255,244,210,.1),transparent 22%),linear-gradient(120deg,rgba(255,255,255,.14),transparent 18%,transparent 82%,rgba(0,0,0,.2))}
+    .card::after{content:"";position:absolute;inset:10px;border:1px solid rgba(255,232,174,.14);z-index:2;pointer-events:none}
+    .card:hover{transform:translateY(-10px) scale(1.02)}
+    .card-bg,.deco{position:absolute;inset:0}
+    .deco{width:100%;height:100%;opacity:.1}
+    .card-no{position:absolute;bottom:-12px;right:-4px;font-family:Georgia,serif;font-size:165px;font-weight:900;line-height:1;pointer-events:none;user-select:none;z-index:1;opacity:.05}
+    .card-body{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;padding:18px}
+    .genre-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.4em;text-transform:uppercase;padding:4px 10px;border-radius:2px;width:fit-content;margin-bottom:auto;backdrop-filter:blur(4px);background:rgba(0,0,0,.6);border:1px solid currentColor}
+    .card-foot{margin-top:auto}
+    .card-title{font-family:Georgia,serif;font-size:clamp(16px,2.2vw,24px);font-weight:900;line-height:1.1;color:#f0e6d0;text-shadow:0 2px 16px rgba(0,0,0,.9);margin-bottom:8px}
+    .card-meta{display:flex;gap:8px;font-size:11px;font-weight:600;letter-spacing:.05em;color:#5a4a30}
+    .card-meta span+span::before{content:".";margin-right:8px}
+    .ov{position:absolute;inset:0;z-index:3;background:linear-gradient(to top,rgba(0,0,0,.95) 0%,rgba(0,0,0,.65) 45%,rgba(0,0,0,.15) 100%);opacity:0;transition:opacity .3s ease;display:flex;flex-direction:column;justify-content:flex-end;padding:22px}
+    .card:hover .ov{opacity:1}
+    .tagline{font-size:13px;font-style:italic;color:#c0aa80;line-height:1.5;margin-bottom:16px;transform:translateY(10px);opacity:0;transition:transform .35s ease .06s,opacity .35s ease .06s}
+    .card:hover .tagline{transform:translateY(0);opacity:1}
+    .play-btn{display:flex;align-items:center;gap:10px;background:transparent;border:1px solid #d4a843;color:#d4a843;padding:9px 18px;font-family:"Arial Narrow",Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.35em;text-transform:uppercase;cursor:pointer;width:fit-content;transform:translateY(10px);opacity:0;transition:transform .35s ease .12s,opacity .35s ease .12s,background .2s,color .2s}
+    .card:hover .play-btn{transform:translateY(0);opacity:1}
+    .play-btn:hover{background:#d4a843;color:#080808}
+    .play-ico{border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:9px solid currentColor}
+    .modal-bg{position:fixed;inset:0;background:#000;z-index:500;display:none;align-items:stretch;justify-content:center;padding:0;animation:fi .2s ease;overflow:hidden}
+    .modal-bg.open{display:block}
+    @keyframes fi{from{opacity:0}to{opacity:1}}
+    .modal{position:fixed;inset:0;width:100vw;height:100vh;background:#000;border:0;animation:su .3s cubic-bezier(.25,.46,.45,.94);box-shadow:none;display:block;margin:0}
+    @keyframes su{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .modal-x{position:fixed;top:26px;right:26px;width:44px;height:44px;background:rgba(18,18,18,.62);border:0;border-radius:50%;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;z-index:12;transition:background .2s,transform .2s}
+    .modal-x:hover{background:rgba(255,255,255,.2);transform:scale(1.04)}
+    .modal-vid{position:absolute;inset:0;background:#000;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .modal-vid::before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,.72),transparent 22%,transparent 66%,rgba(0,0,0,.82));pointer-events:none}
+    .modal-vid::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.42) 100%)}
+    .modal-vid video{width:100vw;height:100vh;display:block;background:#000;object-fit:cover;object-position:center center;filter:var(--video-filter,contrast(1.05) saturate(1.08))}
+    .player-bar{position:fixed;left:16px;right:16px;bottom:16px;z-index:8;display:grid;grid-template-columns:auto auto auto 1fr auto auto;grid-template-areas:"seek seek seek seek seek seek" "play time quality spacer full more";align-items:center;gap:10px 14px;padding:0;background:transparent;border:0;backdrop-filter:none;color:#fff}
+    .player-btn{width:40px;height:40px;border:0;background:transparent;color:#fff;cursor:pointer;font-size:18px;font-weight:800;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+    .player-btn:hover,.player-select:hover{background:rgba(255,255,255,.16);color:#fff;border-radius:50%}
+    #playPause{grid-area:play}
+    #fullscreen{grid-area:full}
+    .seek{grid-area:seek;width:100%;height:18px;accent-color:#ff3158;cursor:pointer}
+    .time{grid-area:time;font-size:16px;font-weight:700;color:#fff;min-width:100px;text-align:left;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+    .player-select{grid-area:quality;height:34px;border:0;border-radius:18px;background:rgba(0,0,0,.34);color:#fff;font-family:Arial,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:0 12px;cursor:pointer}
+    .modal-vid[data-quality="original"] video{--video-filter:none}
+    .modal-vid[data-quality="cinema"] video{--video-filter:contrast(1.12) saturate(1.18) brightness(.98)}
+    .modal-vid[data-quality="bright"] video{--video-filter:contrast(1.04) saturate(1.08) brightness(1.16)}
+    .modal-vid[data-quality="crisp"] video{--video-filter:contrast(1.22) saturate(1.12) brightness(1.03)}
+    .modal:fullscreen .player-bar,
+    .modal-vid:fullscreen .player-bar{display:grid;opacity:0;pointer-events:none;transition:opacity .22s ease}
+    .modal:fullscreen.show-controls .player-bar,
+    .modal:fullscreen .player-bar:focus-within,
+    .modal:fullscreen:hover .player-bar,
+    .modal-vid:fullscreen.show-controls .player-bar,
+    .modal-vid:fullscreen .player-bar:focus-within,
+    .modal-vid:fullscreen:hover .player-bar{opacity:1;pointer-events:auto}
+    .modal:fullscreen .modal-info{opacity:0;transition:opacity .22s ease}
+    .modal:fullscreen.show-controls .modal-info,
+    .modal:fullscreen:hover .modal-info{opacity:1}
+    .modal-vid:fullscreen::after{display:none}
+    .modal-vid:fullscreen video{width:100vw;height:100vh;object-fit:cover}
+    @media(max-width:640px){.player-bar{left:10px;right:10px;bottom:10px;grid-template-columns:auto auto 1fr auto;grid-template-areas:"seek seek seek seek" "play time quality full";gap:8px}.time{min-width:auto;font-size:13px}.player-select{max-width:112px}.modal-title{font-size:18px}}
+    .modal-info{position:fixed;left:30px;right:96px;top:28px;z-index:7;margin:0;padding:0;display:flex;align-items:flex-start;justify-content:space-between;gap:18px;border-top:0;pointer-events:none}
+    .modal.playlist .modal-info{background:transparent}
+    .modal-title{font-family:Arial,sans-serif;font-size:clamp(22px,2vw,30px);font-weight:800;color:#fff;line-height:1.2;text-shadow:0 2px 14px rgba(0,0,0,.8)}
+    .modal-tag{display:none}
+    .badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-items:center;flex-shrink:0;padding-top:2px}
+    .bdg{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:8px 11px;border-radius:16px;background:rgba(0,0,0,.34);border:0;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+    .playlist-note{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;border:0;border-radius:16px;padding:8px 11px;background:rgba(255,49,88,.82)}
+    .modal.hide-ui .modal-info,
+    .modal.hide-ui .modal-x,
+    .modal.hide-ui .player-bar{opacity:0;pointer-events:none}
+    .modal-info,.modal-x,.player-bar{transition:opacity .28s ease}
+    .cin-ft{border-top:1px solid #141414;padding:22px;text-align:center;font-size:11px;letter-spacing:.35em;color:#5b4930;text-transform:uppercase;position:relative;z-index:2}
+  </style>
+</head>
+<body>
+  <div class="cin">
+    <div class="grain" aria-hidden="true"></div>
+    <div class="strip" aria-hidden="true"></div>
+    <header class="cin-hd">
+      <div class="eyebrow">Creative Cinema Showcase</div>
+      <h1 class="cin-logo">REVIART<br><em>Final Exam</em></h1>
+      <p class="cin-sub">Student Film Premiere</p>
+      <p class="screening-note"><strong>Tonight's reel:</strong> original short film trailers from 2C and 2D, playing in a continuous pre-show loop before the main screening begins.</p>
+      <button class="auto-play" id="playAll"><span class="play-ico" aria-hidden="true"></span>Start Pre-show</button>
+      <div class="divider" aria-hidden="true"><div class="dl"></div><div class="dd"></div><div class="dl"></div></div>
+    </header>
+    <main class="cin-grid" id="grid"></main>
+    <footer class="cin-ft">A final exam film experience by 2C and 2D. Click any film to watch its trailer. Press Esc to close.</footer>
+  </div>
+  <div class="modal-bg" id="modal" role="dialog" aria-modal="true">
+    <div class="modal">
+      <button class="modal-x" id="close" aria-label="Close trailer">&times;</button>
+      <div class="modal-vid" id="videoFrame" data-quality="crisp">
+        <video id="video" playsinline preload="auto"></video>
+        <div class="player-bar">
+          <button class="player-btn" id="playPause" aria-label="Play or pause trailer">&gt;</button>
+          <input class="seek" id="seek" type="range" min="0" max="100" value="0" aria-label="Trailer progress">
+          <span class="time" id="time">0:00 / 0:00</span>
+          <select class="player-select" id="quality" aria-label="Video quality preset">
+            <option value="crisp">Crisp</option>
+            <option value="cinema">Cinema</option>
+            <option value="bright">Bright</option>
+            <option value="original">Original</option>
+          </select>
+          <button class="player-btn" id="fullscreen" aria-label="Fullscreen trailer">[]</button>
+        </div>
+      </div>
+      <div class="modal-info">
+        <div><div class="modal-title" id="modalTitle"></div><div class="modal-tag" id="modalTag"></div></div>
+        <div class="badges" id="modalBadges"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const films = [
+      { no:"01", group:"2C", title:"Group 1 Trailer", tagline:"A second cut from the first production team.", genre:"Short Film", year:"2026", rating:"PG", runtime:"Trailer", quality:"1080p", trailer:"GROUP1_TRAILER 2C.mp4", c:["#1a0404","#460c0c","#a01515"], accent:"#ff5544" },
+      { no:"02", group:"2D", title:"King of Tears", tagline:"A crowned grief becomes impossible to hide.", genre:"Drama", year:"2026", rating:"PG-13", runtime:"Trailer", quality:"4K", trailer:"Group1_KingofTears_Trailer 2D.mp4", c:["#04041a","#0c0c46","#1515a0"], accent:"#5577ff" },
+      { no:"03", group:"2C", title:"Someone Was Here", tagline:"Absence leaves evidence.", genre:"Mystery", year:"2026", rating:"PG-13", runtime:"Trailer", quality:"4K", trailer:"Someone was here_Trailer 2C.mp4", c:["#08041a","#180c46","#2a15a0"], accent:"#bb44ff" },
+      { no:"04", group:"2D", title:"You Die", tagline:"A threat becomes a countdown.", genre:"Thriller", year:"2026", rating:"PG-13", runtime:"Trailer", quality:"4K", trailer:"Group2_YouDie_Trailer 2D.mp4", c:["#041a1a","#0c4646","#15a0a0"], accent:"#33ffee" },
+      { no:"05", group:"2C", title:"Mulat", tagline:"A moment of awakening changes what can be seen.", genre:"Drama", year:"2026", rating:"PG", runtime:"Trailer", quality:"1080p", trailer:"MULAT TRAILER 2c 1080p.mp4", c:["#1a0c00","#462a00","#a06400"], accent:"#ffaa33" },
+      { no:"06", group:"2D", title:"I Wish I Could", tagline:"A quiet wish finds its voice.", genre:"Drama", year:"2026", rating:"PG", runtime:"Trailer", quality:"1080p", trailer:"Group3_IwishIcould_trailer 2D.mp4", c:["#1a1800","#464000","#a09600"], accent:"#ffcc22" }
+    ];
+
+    const deco = (idx, color) => {
+      const attrs = `class="deco" viewBox="0 0 200 300" preserveAspectRatio="none" style="color:${color}"`;
+      if (idx === 0) return `<svg ${attrs}>${[0,1,2,3,4,5,6].map(i=>`<line x1="200" y1="${i*50}" x2="0" y2="${160+i*22}" stroke="currentColor" stroke-width="1"/>`).join("")}</svg>`;
+      if (idx === 1) return `<svg ${attrs}>${[40,70,100,130,160,190].map(r=>`<ellipse cx="100" cy="320" rx="${r}" ry="${r*.75}" fill="none" stroke="currentColor" stroke-width="1"/>`).join("")}</svg>`;
+      if (idx === 2) return `<svg ${attrs}>${[0,1,2,3,4,5,6].map(i=>`<line x1="0" y1="${i*50}" x2="200" y2="${i*50}" stroke="currentColor" stroke-width=".6"/>`).join("")}${[0,1,2,3,4].map(i=>`<line x1="${i*50}" y1="0" x2="${i*50}" y2="300" stroke="currentColor" stroke-width=".6"/>`).join("")}</svg>`;
+      if (idx === 3) return `<svg ${attrs}>${[0,1,2,3,4].map(i=>`<polyline points="0,${i*60+40} 50,${i*60} 100,${i*60+40} 150,${i*60} 200,${i*60+40}" fill="none" stroke="currentColor" stroke-width="1"/>`).join("")}</svg>`;
+      return `<svg ${attrs}>${[[20,50,8],[75,110,14],[155,65,6],[45,200,11],[170,155,9],[105,255,13],[55,270,7],[145,225,10]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="currentColor" stroke-width="1"/>`).join("")}</svg>`;
+    };
+
+    document.querySelector(".strip").innerHTML = Array.from({length:90}, () => '<div class="hole"></div>').join("");
+    const grid = document.getElementById("grid");
+    grid.innerHTML = films.map((f, i) => `
+      <article class="card" data-index="${i}" aria-label="${f.title} click to watch trailer">
+        <div class="card-bg" style="background:linear-gradient(160deg,${f.c[0]} 0%,${f.c[1]} 55%,${f.c[2]} 100%)"></div>
+        ${deco(i, f.accent)}
+        <div class="card-no" style="color:${f.accent}">${f.no}</div>
+        <div class="card-body">
+          <span class="genre-badge" style="color:${f.accent}">${f.genre}</span>
+          <div class="card-foot">
+            <div class="card-title">${f.title}</div>
+            <div class="card-meta"><span>${f.group}</span><span>${f.quality}</span><span>${f.rating}</span><span>${f.runtime}</span></div>
+          </div>
+        </div>
+        <div class="ov"><p class="tagline">${f.tagline}</p><button class="play-btn"><span class="play-ico"></span>Watch Trailer</button></div>
+      </article>
+    `).join("");
+
+    const modal = document.getElementById("modal");
+    const modalShell = modal.querySelector(".modal");
+    const video = document.getElementById("video");
+    const videoFrame = document.getElementById("videoFrame");
+    const playPause = document.getElementById("playPause");
+    const seek = document.getElementById("seek");
+    const time = document.getElementById("time");
+    const quality = document.getElementById("quality");
+    const fullscreen = document.getElementById("fullscreen");
+    const playAll = document.getElementById("playAll");
+    let playlistMode = false;
+    let activeIndex = 0;
+    let controlsTimer;
+    let idleTimer;
+    const formatTime = value => {
+      if (!Number.isFinite(value)) return "0:00";
+      const minutes = Math.floor(value / 60);
+      const seconds = Math.floor(value % 60).toString().padStart(2, "0");
+      return `${minutes}:${seconds}`;
+    };
+    const refreshPlayer = () => {
+      const duration = video.duration || 0;
+      seek.value = duration ? String((video.currentTime / duration) * 100) : "0";
+      time.textContent = `${formatTime(video.currentTime)} / ${formatTime(duration)}`;
+      playPause.textContent = video.paused ? ">" : "||";
+    };
+    const showFullscreenControls = () => {
+      videoFrame.classList.add("show-controls");
+      modalShell.classList.add("show-controls");
+      clearTimeout(controlsTimer);
+      if (document.fullscreenElement && !video.paused) {
+        controlsTimer = setTimeout(() => {
+          videoFrame.classList.remove("show-controls");
+          modalShell.classList.remove("show-controls");
+        }, 2600);
+      }
+    };
+    const isPlayerFullscreen = () => document.fullscreenElement === modalShell || document.fullscreenElement === videoFrame;
+    const showPlayerUi = () => {
+      modalShell.classList.remove("hide-ui");
+      showFullscreenControls();
+      clearTimeout(idleTimer);
+      if (modal.classList.contains("open") && !video.paused) {
+        idleTimer = setTimeout(() => modalShell.classList.add("hide-ui"), 5000);
+      }
+    };
+    const hidePlayerUiInFullscreen = () => {
+      if (isPlayerFullscreen()) {
+        clearTimeout(idleTimer);
+        modalShell.classList.add("hide-ui");
+        videoFrame.classList.remove("show-controls");
+        modalShell.classList.remove("show-controls");
+      } else {
+        showPlayerUi();
+      }
+    };
+    const openFilm = (f, index = 0, auto = false) => {
+      playlistMode = auto;
+      activeIndex = index;
+      modal.classList.add("open");
+      modalShell.classList.toggle("playlist", playlistMode);
+      document.body.style.overflow = "hidden";
+      document.getElementById("modalTitle").textContent = f.title;
+      document.getElementById("modalTag").textContent = f.tagline;
+      document.getElementById("modalBadges").innerHTML = `${playlistMode ? `<span class="playlist-note">Loop ${activeIndex + 1}/${films.length}</span>` : ""}<span class="bdg">${f.group}</span><span class="bdg">${f.quality}</span><span class="bdg">${f.genre}</span><span class="bdg" style="border-color:${f.accent};color:${f.accent}">${f.rating}</span><span class="bdg">${f.runtime}</span>`;
+      video.src = f.trailer;
+      video.play().catch(() => {});
+      refreshPlayer();
+      showPlayerUi();
+    };
+    const closeFilm = () => {
+      modal.classList.remove("open");
+      modalShell.classList.remove("playlist");
+      playlistMode = false;
+      document.body.style.overflow = "";
+      video.pause();
+      video.removeAttribute("src");
+      video.load();
+      modalShell.classList.remove("hide-ui");
+      clearTimeout(idleTimer);
+      refreshPlayer();
+    };
+
+    grid.querySelectorAll(".card").forEach(card => {
+      const film = films[card.dataset.index];
+      card.addEventListener("mouseenter", () => {
+        card.style.borderColor = film.accent;
+        card.style.boxShadow = `0 24px 64px rgba(0,0,0,.85),0 0 40px ${film.accent}30`;
+      });
+      card.addEventListener("mouseleave", () => {
+        card.style.borderColor = "#1e1e1e";
+        card.style.boxShadow = "none";
+      });
+      card.addEventListener("click", () => openFilm(film, Number(card.dataset.index), false));
+    });
+    playAll.addEventListener("click", () => openFilm(films[0], 0, true));
+    document.getElementById("close").addEventListener("click", closeFilm);
+    modal.addEventListener("click", event => { if (event.target === modal) closeFilm(); });
+    document.addEventListener("keydown", event => { if (event.key === "Escape") closeFilm(); });
+    playPause.addEventListener("click", () => video.paused ? video.play() : video.pause());
+    seek.addEventListener("input", () => {
+      if (video.duration) video.currentTime = (Number(seek.value) / 100) * video.duration;
+    });
+    quality.addEventListener("change", () => {
+      videoFrame.dataset.quality = quality.value;
+    });
+    fullscreen.addEventListener("click", () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        modalShell.requestFullscreen().catch(() => {});
+      }
+    });
+    document.addEventListener("fullscreenchange", showFullscreenControls);
+    modalShell.addEventListener("mousemove", showPlayerUi);
+    modalShell.addEventListener("touchstart", hidePlayerUiInFullscreen);
+    modalShell.addEventListener("click", hidePlayerUiInFullscreen);
+    video.addEventListener("click", () => video.paused ? video.play() : video.pause());
+    video.addEventListener("timeupdate", refreshPlayer);
+    video.addEventListener("loadedmetadata", refreshPlayer);
+    video.addEventListener("play", refreshPlayer);
+    video.addEventListener("play", showPlayerUi);
+    video.addEventListener("pause", () => {
+      refreshPlayer();
+      modalShell.classList.remove("hide-ui");
+      clearTimeout(idleTimer);
+    });
+    video.addEventListener("ended", () => {
+      if (!playlistMode) return;
+      const nextIndex = activeIndex + 1;
+      const loopIndex = nextIndex < films.length ? nextIndex : 0;
+      openFilm(films[loopIndex], loopIndex, true);
+    });
+  </script>
+</body>
+</html>

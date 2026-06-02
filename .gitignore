@@ -1,0 +1,6 @@
+# Exclude large video assets exceeding GitHub's upload limits
+*.mp4
+
+# OS/System files
+Thumbs.db
+.DS_Store
